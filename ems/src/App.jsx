@@ -2,7 +2,6 @@ import React, { useEffect,useState } from 'react'
 import Login from './components/Auth/Login'
 import EmployeeDashboard from './components/Dashboard/EmployeeDashboard'
 import AdminDashboard from './components/Dashboard/AdminDashboard'
-import { getLocalStorage, setLocalStorage } from './utils/localStoreg'
 import { useContext } from 'react'
 import { AuthContext } from './context/AuthProvider'
 
@@ -31,3 +30,4 @@ console.log(data)
 }
 
 export default App
+// 1:44

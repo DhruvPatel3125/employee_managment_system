@@ -1,6 +1,6 @@
 import React from "react";
 
-function TaskList() {
+function TaskList({data}) {
   return (
     <div
       id="taskList"

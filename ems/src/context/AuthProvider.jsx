@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
         const { employees, admin } = getLocalStorage();
         setUserData({ employees, admin }); // ✅ Fix: Store both in an object
     }, []);
+    
 
     return (
         <AuthContext.Provider value={userData}>

@@ -1,20 +1,28 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
-const Header = () => {
-  const [username, setUsername] = useState('')
+const Header = ({ data }) => {
+  const [username, setUsername] = useState('');
 
-  if(!data){
-    setUsername('Admin')
-  }else{
-    setUsername(data.firstName)
-  }
+  // Set username based on data when the component mounts or when data changes
+  useEffect(() => {
+    if (!data) {
+      setUsername('Admin');  // Default to 'Admin' if no data is available
+    } else {
+      setUsername(data.firstName);  // Use data.firstName if data is available
+    }
+  }, [data]);  // Dependency on data, re-run when data changes
+
   return (
     <div className="flex items-end justify-between">
-      <h1 className='text-2xl font-medium'>Hello 🙌<br /><span className='text-3xl font-semibold'>{username}</span> </h1>
-      <button className='bg-red-700 text-lg font-medium text-white px-5 py-2 rounded-sm'>Log Out</button>
+      <h1 className='text-2xl font-medium'>
+        Hello 🙌<br />
+        <span className='text-3xl font-semibold'>{username}</span>
+      </h1>
+      <button className='bg-red-700 text-lg font-medium text-white px-5 py-2 rounded-sm'>
+        Log Out
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Login from './components/Auth/Login';
 import EmployeeDashboard from './components/Dashboard/EmployeeDashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard';
-import { useContext } from 'react';
 import { AuthContext } from './context/AuthProvider';
 
 const App = () => {
@@ -31,23 +30,31 @@ const App = () => {
         setUser('employee');
         setLoggedInUserData(employee);
         localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee', data: employee }));
+      } else {
+        alert('Invalid credentials');
       }
-    } else {
-      alert('Invalid credentials');
     }
   };
 
-  return (
-    <>
-      {!user ? (
-        <Login handleLogin={handleLogin} />
-      ) : user === 'admin' ? (
-        <AdminDashboard />
-      ) : user === 'employee' ? (
-        <EmployeeDashboard data={loggedInUserData} />
-      ) : null}
-    </>
-  );
+  const handleLogout = () => {
+    localStorage.removeItem('loggedInUser');
+    setUser(null);
+    setLoggedInUserData(null);
+  };
+
+  
+    return (
+      <>
+        {!user ? (
+          <Login handleLogin={handleLogin} />
+        ) : user === 'admin' ? (
+          <AdminDashboard changeUser={setUser} />
+        ) : user === 'employee' ? (
+          <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
+        ) : null}
+      </>
+    );
+    
 };
 
 export default App;

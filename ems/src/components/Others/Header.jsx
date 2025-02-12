@@ -1,27 +1,36 @@
 import React, { useEffect, useState } from 'react';
 
-const Header = ({ data }) => {
+const Header = (props) => {
   const [username, setUsername] = useState('');
 
-  // Set username based on data when the component mounts or when data changes
+  // Set username based on props.data when component mounts or updates
   useEffect(() => {
-    if (!data) {
-      setUsername('Admin');  // Default to 'Admin' if no data is available
+    if (!props.data) {
+      setUsername('Admin');  // Default if no user data is available
     } else {
-      setUsername(data.firstName);  // Use data.firstName if data is available
+      setUsername(props.data.firstName || 'Admin');  // Fallback to 'Admin' if firstName is missing
     }
-  }, [data]);  // Dependency on data, re-run when data changes
-const logOutUser = ()=>{
-  localStorage.setItem('loggedInUser','')
-  window.location.reload()
-}
+  }, [props.data]);  // Re-run when props.data changes
+
+  const logOutUser = () => {
+    localStorage.removeItem('loggedInUser');
+    if (props.changeUser) {
+      props.changeUser(null); // This will trigger a re-render in App.js
+    }
+  };
+  
+  
+
   return (
     <div className="flex items-end justify-between">
-      <h1 className='text-2xl font-medium'>
+      <h1 className="text-2xl font-medium">
         Hello 🙌<br />
-        <span className='text-3xl font-semibold'>{username}</span>
+        <span className="text-3xl font-semibold">{username}</span>
       </h1>
-      <button onClick={logOutUser} className='bg-red-700 text-lg font-medium text-white px-5 py-2 rounded-sm'>
+      <button
+        onClick={logOutUser}
+        className="bg-red-700 text-lg font-medium text-white px-5 py-2 rounded-sm"
+      >
         Log Out
       </button>
     </div>

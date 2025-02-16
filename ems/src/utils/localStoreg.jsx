@@ -230,13 +230,48 @@ const employees = [
   ];
 
 
-export const setLocalStorage = () => {
-  localStorage.setItem('employees',JSON.stringify(employees));
-  localStorage.setItem('admin',JSON.stringify(admin));
-}
-
-export const getLocalStorage = () => {
- const employees =  JSON.parse(localStorage.getItem('employees'));
- const admin =  JSON.parse(localStorage.getItem('admin'));
-  return {employees,admin}
-}
+  export const setLocalStorage = () => {
+    if (!localStorage.getItem("employees")) {
+      localStorage.setItem("employees", JSON.stringify(employees));
+    }
+    if (!localStorage.getItem("admin")) {
+      localStorage.setItem("admin", JSON.stringify(admin));
+    }
+  };
+  
+  // Get data from localStorage
+  export const getLocalStorage = () => {
+    const employees = JSON.parse(localStorage.getItem("employees")) || [];
+    const admin = JSON.parse(localStorage.getItem("admin")) || [];
+    return { employees, admin };
+  };
+  
+  // Assign a new task to an employee and update localStorage
+  export const handleAssignTask = (employeeId, newTask) => {
+    let { employees } = getLocalStorage(); // Get existing employees
+  
+    const updatedEmployees = employees.map(emp => {
+      if (emp.id === employeeId) {
+        return {
+          ...emp,
+          tasks: [...emp.tasks, newTask], // Append new task
+          taskCounts: {
+            ...emp.taskCounts,
+            active: (emp.taskCounts.active || 0) + 1, // Ensure count exists
+            newTask: (emp.taskCounts.newTask || 0) + 1
+          }
+        };
+      }
+      return emp;
+    });
+  
+    // Update localStorage with new task
+    localStorage.setItem("employees", JSON.stringify(updatedEmployees));
+  };
+  
+  // Ensure Employee Dashboard fetches updated tasks
+  export const getEmployeeTasks = (employeeEmail) => {
+    const { employees } = getLocalStorage();
+    const employee = employees.find(emp => emp.email === employeeEmail);
+    return employee ? employee.tasks : [];
+  };

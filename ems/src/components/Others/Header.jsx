@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from 'react';
+import { getLocalStorage } from '../../utils/localStoreg'; // Ensure correct import
 
 const Header = (props) => {
   const [username, setUsername] = useState('');
 
-  // Set username based on props.data when component mounts or updates
+  // Fetch logged-in user details on component mount
   useEffect(() => {
-    if (!props.data) {
-      setUsername('Admin');  // Default if no user data is available
-    } else {
-      setUsername(props.data.firstName || 'Admin');  // Fallback to 'Admin' if firstName is missing
+    const { employees } = getLocalStorage();
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (loggedInUser && loggedInUser.role === "employee") {
+      const employeeData = employees.find(emp => emp.email === loggedInUser.data.email);
+      if (employeeData) {
+        setUsername(employeeData.firstName); // Update username state
+      }
     }
-  }, [props.data]);  // Re-run when props.data changes
+  }, []); // Empty dependency array ensures it runs only on mount
 
   const logOutUser = () => {
     localStorage.removeItem('loggedInUser');
     if (props.changeUser) {
-      props.changeUser(null); // This will trigger a re-render in App.js
+      props.changeUser(null); // Trigger re-render in App.js
     }
   };
-  
-  
 
   return (
     <div className="flex items-end justify-between">
       <h1 className="text-2xl font-medium">
         Hello 🙌<br />
-        <span className="text-3xl font-semibold">{username}</span>
+        <span className="text-3xl font-semibold">{username || "User"}</span>
       </h1>
       <button
         onClick={logOutUser}

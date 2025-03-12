@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthProvider";
 
 const CreateTask = () => {
+  const { employees, updateEmployees } = useContext(AuthContext);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskDate, setTaskDate] = useState("");
@@ -17,38 +19,39 @@ const CreateTask = () => {
       category, 
       assignTo, 
       active: false, 
-      newTask: true, 
+      newTask: true,
       failed: false, 
-      completed: false 
+      completed: false,
+      createdAt: new Date().toISOString(),
+      id: Date.now() // Add unique ID for each task
     };
 
-
-    // Retrieve employees from localStorage safely
-    const employeesData = JSON.parse(localStorage.getItem("employees")) || [];
-
     // Update assigned employee
-    const updatedEmployees = employeesData.map((employee) => {
+    const updatedEmployees = employees.map((employee) => {
       if (employee.firstName.toLowerCase() === assignTo.toLowerCase()) {
-        // Ensure tasks array exists
-        if (!employee.tasks) {
-          employee.tasks = [];
-        }
-        employee.tasks.push(newTask);
+        return {
+          ...employee,
+          tasks: [...(employee.tasks || []), newTask],
+          taskCounts: {
+            ...employee.taskCounts,
+            newTask: (employee.taskCounts?.newTask || 0) + 1
+          }
+        };
       }
       return employee;
     });
 
-    // Save updated employees back to localStorage
-    localStorage.setItem("employees", JSON.stringify(updatedEmployees));
+    // Update context and localStorage
+    updateEmployees(updatedEmployees);
 
-    console.log("Updated Employees:", updatedEmployees);
-
-    // Reset input fields
+    // Reset form fields
     setTaskTitle("");
     setTaskDescription("");
     setTaskDate("");
     setAssignTo("");
     setCategory("");
+
+    alert("Task created successfully!");
   };
 
   return (

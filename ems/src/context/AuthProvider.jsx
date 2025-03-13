@@ -7,10 +7,8 @@ const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState({ employees: [], admin: {} });
 
   useEffect(() => {
-    // If data is not found in localStorage, initialize it
-    if (!localStorage.getItem('employees') || !localStorage.getItem('admin')) {
-      setLocalStorage();
-    }
+    // Initialize data from localStorage
+    setLocalStorage();
     const { employees, admin } = getLocalStorage();
     setUserData({ employees, admin });
   }, []);
@@ -25,7 +23,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ ...userData, updateEmployees }}>
+    <AuthContext.Provider value={{ employees: userData.employees, updateEmployees }}>
       {children}
     </AuthContext.Provider>
   );

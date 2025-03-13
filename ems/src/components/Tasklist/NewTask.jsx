@@ -35,18 +35,18 @@ const NewTask = ({data, employeeData}) => {
   };
 
   return (
-    <div className="flex-shrink-0 h-full w-[300px] p-5 bg-green-400 rounded-xl">
+    <div className="flex-shrink-0 h-64 w-80 p-5 bg-gradient-to-r from-green-500 to-green-700 rounded-xl shadow-2xl transform transition duration-300 hover:scale-105">
       <div className="flex justify-between items-center">
-        <h3 className="bg-gray-100 text-gray-500 px-3 py-1 rounded">{data.category}</h3>
-        <h4 className="text-base">{data.taskDate}</h4>
+        <h3 className="bg-white text-green-700 px-3 py-1 rounded">{data.category}</h3>
+        <h4 className="text-base text-white">{data.taskDate}</h4>
       </div>
-      <h2 className="mt-5 text-2xl font-semibold">{data.taskTitle}</h2>
-      <p className="text-sm mt-2">
+      <h2 className="mt-5 text-2xl font-semibold text-white">{data.taskTitle}</h2>
+      <p className="text-sm mt-2 text-white">
         {data.taskDescription}
       </p>
       <div className='mt-4'>
         <button 
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded w-full"
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-full w-full transition duration-300"
           onClick={handleAcceptTask}
         >
           Accept Task

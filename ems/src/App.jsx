@@ -41,20 +41,18 @@ const App = () => {
     setUser(null);
     setLoggedInUserData(null);
   };
-//
-  
-    return (
-      <>
-        {!user ? (
-          <Login handleLogin={handleLogin} />
-        ) : user === 'admin' ? (
-          <AdminDashboard changeUser={setUser} />
-        ) : user === 'employee' ? (
-          <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
-        ) : null}
-      </>
-    );
-    
+
+  return (
+    <>
+      {!user ? (
+        <Login handleLogin={handleLogin} />
+      ) : user === 'admin' ? (
+        <AdminDashboard changeUser={setUser} data={loggedInUserData} />
+      ) : user === 'employee' ? (
+        <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
+      ) : null}
+    </>
+  );
 };
 
 export default App;

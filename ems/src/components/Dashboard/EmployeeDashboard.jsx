@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthProvider';
 import Header from '../Others/Header';
 import TaskListNumber from '../Others/TaskListNumber';
@@ -13,7 +13,7 @@ const EmployeeDashboard = ({ changeUser, data }) => {
   ) || data;
 
   return (
-    <div className="p-10 bg-[#1c1c1c] h-screen">
+    <div className="p-10 bg-gray-900 min-h-screen">
       <Header changeUser={changeUser} data={currentEmployeeData} />
       <TaskListNumber data={currentEmployeeData} />
       <TaskList data={currentEmployeeData} />

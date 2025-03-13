@@ -8,7 +8,7 @@ function TaskList({data}) {
   console.log("TaskList Data:", data); // Add this for debugging
 
   if (!data || !data.tasks) {
-    return <div className="text-center mt-5">No tasks available</div>;
+    return <div className="text-center mt-5 text-white">No tasks available</div>;
   }
   
   return (
